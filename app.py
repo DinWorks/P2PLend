@@ -1,7 +1,7 @@
 
 from flask import Flask, jsonify
 from flask_graphql import GraphQLView
-from .models import Message 
+from model import Message 
 from database import db
 from schema import schema
 
