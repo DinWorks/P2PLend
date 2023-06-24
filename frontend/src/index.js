@@ -1,10 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { ApolloProvider } from '@apollo/client';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 
 const client = new ApolloClient({
@@ -12,14 +10,33 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <ApolloProvider client={client}>
-    <RegisterForm />
-  </ApolloProvider>,
-);
+function App() {
+  return (
+    <ApolloProvider client={client}>
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/register">Register</Link>
+              </li>
+            </ul>
+          </nav>
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+          {/* A <Routes> looks through its children <Route>s and
+              renders the first one that matches the current URL. */}
+          <Routes>
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
+          </Routes>
+        </div>
+      </Router>
+    </ApolloProvider>
+  );
+}
+
+const rootElement = document.getElementById('root');
+ReactDOM.createRoot(rootElement).render(<App />);
